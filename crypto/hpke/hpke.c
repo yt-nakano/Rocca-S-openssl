@@ -1,5 +1,6 @@
 /*
  * Copyright 2022-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -1175,7 +1176,7 @@ int OSSL_HPKE_seal(OSSL_HPKE_CTX *ctx,
         ERR_raise(ERR_LIB_CRYPTO, ERR_R_PASSED_INVALID_ARGUMENT);
         return 0;
     }
-    seqlen = hpke_seqnonce2buf(ctx, seqbuf, sizeof(seqbuf));
+    seqlen = hpke_seqnonce2buf(ctx, seqbuf, ctx->noncelen);
     if (seqlen == 0) {
         ERR_raise(ERR_LIB_CRYPTO, ERR_R_INTERNAL_ERROR);
         return 0;
@@ -1217,7 +1218,7 @@ int OSSL_HPKE_open(OSSL_HPKE_CTX *ctx,
         ERR_raise(ERR_LIB_CRYPTO, ERR_R_PASSED_INVALID_ARGUMENT);
         return 0;
     }
-    seqlen = hpke_seqnonce2buf(ctx, seqbuf, sizeof(seqbuf));
+    seqlen = hpke_seqnonce2buf(ctx, seqbuf, ctx->noncelen);
     if (seqlen == 0) {
         ERR_raise(ERR_LIB_CRYPTO, ERR_R_INTERNAL_ERROR);
         return 0;

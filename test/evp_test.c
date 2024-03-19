@@ -1,5 +1,6 @@
 /*
  * Copyright 2015-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -1064,7 +1065,7 @@ static int cipher_test_enc(EVP_TEST *t, int enc, size_t out_misalign,
                             tmp + out_misalign, tmplen + tmpflen))
         goto err;
     if (enc && expected->aead && !expected->tls_aad) {
-        unsigned char rtag[16];
+        unsigned char rtag[32];
 
         if (!TEST_size_t_le(expected->tag_len, sizeof(rtag))) {
             t->err = "TAG_LENGTH_INTERNAL_ERROR";
@@ -4310,6 +4311,11 @@ static int is_cipher_disabled(const char *name)
     if (HAS_CASE_PREFIX(name, "CHACHA"))
         return 1;
 #endif
+#ifdef OPENSSL_NO_ROCCA
+    if (HAS_CASE_PREFIX(name, "ROCCA"))
+        return 1;
+#endif
+
 #ifdef OPENSSL_NO_POLY1305
     if (HAS_CASE_SUFFIX(name, "Poly1305"))
         return 1;

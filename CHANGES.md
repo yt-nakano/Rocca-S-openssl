@@ -25,6 +25,16 @@ OpenSSL Releases
 OpenSSL 3.2
 -----------
 
+### Changes between 3.2.0 and 3.2.0+Rocca-S [19 Mar 2024]
+
+ * Experimentally support for Rocca-S added to libcrypto and libssl.
+
+   *KDDI CORPORATION*
+
+ * Experimentally add new TLS 1.3 ciphersuites with Rocca-S enabled "TLS_ROCCA_S_SHA512".
+
+   *KDDI CORPORATION*
+
 ### Changes between 3.1 and 3.2.0 [23 Nov 2023]
 
  * The BLAKE2b hash algorithm supports a configurable output length

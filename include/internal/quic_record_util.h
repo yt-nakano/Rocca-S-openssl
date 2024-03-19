@@ -1,5 +1,6 @@
 /*
  * Copyright 2022-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -74,6 +75,7 @@ int ossl_quic_provide_initial_secret(OSSL_LIB_CTX *libctx,
 # define QRL_SUITE_AES128GCM            1 /* SHA256 */
 # define QRL_SUITE_AES256GCM            2 /* SHA384 */
 # define QRL_SUITE_CHACHA20POLY1305     3 /* SHA256 */
+# define QRL_SUITE_ROCCAS               4 /* SHA512 */
 
 /* Returns cipher name in bytes or NULL if suite ID is invalid. */
 const char *ossl_qrl_get_suite_cipher_name(uint32_t suite_id);

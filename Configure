@@ -1,6 +1,7 @@
 #! /usr/bin/env perl
 # -*- mode: perl; -*-
 # Copyright 2016-2023 The OpenSSL Project Authors. All Rights Reserved.
+# Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
 #
 # Licensed under the Apache License 2.0 (the "License").  You may not use
 # this file except in compliance with the License.  You can obtain a copy
@@ -490,6 +491,7 @@ my @disablables = (
     "rdrand",
     "rfc3779",
     "rmd160",
+    "rocca",
     "scrypt",
     "sctp",
     "secure-memory",
@@ -599,7 +601,7 @@ my @disable_cascades = (
                              "idea", "ktls",
                              "md4", "multiblock", "nextprotoneg",
                              "ocsp", "ocb", "poly1305", "psk",
-                             "rc2", "rc4", "rmd160",
+                             "rc2", "rc4", "rmd160", "rocca",
                              "seed", "siphash", "siv",
                              "sm3", "sm4", "srp",
                              "srtp", "ssl3-method", "ssl-trace",
@@ -1576,6 +1578,15 @@ unless ($disabled{"fuzz-libfuzzer"} && $disabled{"fuzz-afl"}
         && $disabled{asan} && $disabled{ubsan} && $disabled{msan}) {
     push @{$config{cflags}}, "-fno-omit-frame-pointer", "-g";
     push @{$config{cxxflags}}, "-fno-omit-frame-pointer", "-g" if $config{CXX};
+}
+
+if (!$disabled{asm}) {
+    if (grep /::Unix$/, @File::Spec::ISA) {
+        my $cpu_flags = qx(grep flags /proc/cpuinfo);
+        if (grep /aes/, $cpu_flags) {
+            push @{$config{cflags}}, "-maes";
+        }
+    }
 }
 #
 # Platform fix-ups

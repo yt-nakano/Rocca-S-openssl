@@ -1,5 +1,6 @@
 /*
  * Copyright 2016-2021 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,6 +70,7 @@ static const uint32_t default_ciphers_in_order[] = {
     TLS1_3_CK_CHACHA20_POLY1305_SHA256,
 # endif
     TLS1_3_CK_AES_128_GCM_SHA256,
+    TLS1_3_CK_ROCCA_S_SHA512,
 #endif
 #ifndef OPENSSL_NO_TLS1_2
 # ifndef OPENSSL_NO_EC

@@ -1,5 +1,6 @@
 /*
  * Copyright 2022-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -202,6 +203,14 @@ static const struct suite_info suite_chacha20poly1305 = {
     ((uint64_t)1) << 36,    /* Limit as prescribed by RFC 9001 */
 };
 
+static const struct suite_info suite_roccas = {
+    "Rocca-S", "SHA512", 64, 32, 16, 32, 32,
+    QUIC_HDR_PROT_CIPHER_ROCCA_S,
+    /* Do not use UINT64_MAX here as this represents an invalid value */
+    UINT64_MAX - 1,         /* No applicable limit for this suite (RFC 9001) */
+    ((uint64_t)1) << 36,    /* Limit as prescribed by RFC 9001 */
+};
+
 static const struct suite_info *get_suite(uint32_t suite_id)
 {
     switch (suite_id) {
@@ -211,6 +220,8 @@ static const struct suite_info *get_suite(uint32_t suite_id)
             return &suite_aes256gcm;
         case QRL_SUITE_CHACHA20POLY1305:
             return &suite_chacha20poly1305;
+        case QRL_SUITE_ROCCAS:
+            return &suite_roccas;
         default:
             return NULL;
     }

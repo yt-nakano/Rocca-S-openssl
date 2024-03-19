@@ -1,5 +1,6 @@
 /*
  * Copyright 2022-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -87,12 +88,16 @@ static const OSSL_HPKE_KEM_INFO hpke_kem_tab[] = {
  */
 static const OSSL_HPKE_AEAD_INFO hpke_aead_tab[] = {
     { OSSL_HPKE_AEAD_ID_AES_GCM_128, LN_aes_128_gcm, 16, 16,
-      OSSL_HPKE_MAX_NONCELEN },
+      12 },
     { OSSL_HPKE_AEAD_ID_AES_GCM_256, LN_aes_256_gcm, 16, 32,
-      OSSL_HPKE_MAX_NONCELEN },
+      12 },
 #if !defined(OPENSSL_NO_CHACHA) && !defined(OPENSSL_NO_POLY1305)
     { OSSL_HPKE_AEAD_ID_CHACHA_POLY1305, LN_chacha20_poly1305, 16, 32,
-      OSSL_HPKE_MAX_NONCELEN },
+      12 },
+#endif
+#if !defined(OPENSSL_NO_ROCCA)
+    { OSSL_HPKE_AEAD_ID_ROCCA_S, LN_rocca_s, 32, 32,
+      16 },
 #endif
     { OSSL_HPKE_AEAD_ID_EXPORTONLY, NULL, 0, 0, 0 }
 };
@@ -148,6 +153,8 @@ static const synonymttab_t aeadstrtab[] = {
      {OSSL_HPKE_AEADSTR_AES256GCM, "0x2", "0x02", "2"}},
     {OSSL_HPKE_AEAD_ID_CHACHA_POLY1305,
      {OSSL_HPKE_AEADSTR_CP, "0x3", "0x03", "3"}},
+    {OSSL_HPKE_AEAD_ID_ROCCA_S,
+     {OSSL_HPKE_AEADSTR_ROCCAS, "0x4", "0x04", "4"}},
     {OSSL_HPKE_AEAD_ID_EXPORTONLY,
      {OSSL_HPKE_AEADSTR_EXP, "ff", "0xff", "255"}}
 };

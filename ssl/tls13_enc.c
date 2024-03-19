@@ -1,5 +1,6 @@
 /*
  * Copyright 2016-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -389,6 +390,9 @@ static int derive_secret_key_and_iv(SSL_CONNECTION *s, const EVP_MD *md,
 
         if (mode == EVP_CIPH_GCM_MODE) {
             *taglen = EVP_GCM_TLS_TAG_LEN;
+        } else if (EVP_CIPHER_is_a(ciph, "Rocca-s")) {
+            /* ROCCA-S */
+            *taglen = EVP_ROCCAS_TLS_TAG_LEN;
         } else {
             /* CHACHA20P-POLY1305 */
             *taglen = EVP_CHACHAPOLY_TLS_TAG_LEN;

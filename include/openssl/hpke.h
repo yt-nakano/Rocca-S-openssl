@@ -1,5 +1,6 @@
 /*
  * Copyright 2022-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -50,6 +51,7 @@
 # define OSSL_HPKE_AEAD_ID_AES_GCM_128     0x0001 /* AES-GCM-128 */
 # define OSSL_HPKE_AEAD_ID_AES_GCM_256     0x0002 /* AES-GCM-256 */
 # define OSSL_HPKE_AEAD_ID_CHACHA_POLY1305 0x0003 /* Chacha20-Poly1305 */
+# define OSSL_HPKE_AEAD_ID_ROCCA_S         0x0004 /* Rocca-S */
 # define OSSL_HPKE_AEAD_ID_EXPORTONLY      0xFFFF /* export-only fake ID */
 
 /* strings for suite components */
@@ -64,6 +66,7 @@
 # define OSSL_HPKE_AEADSTR_AES128GCM  "aes-128-gcm"        /* AEAD id 1 */
 # define OSSL_HPKE_AEADSTR_AES256GCM  "aes-256-gcm"        /* AEAD id 2 */
 # define OSSL_HPKE_AEADSTR_CP         "chacha20-poly1305"  /* AEAD id 3 */
+# define OSSL_HPKE_AEADSTR_ROCCAS     "rocca-s"            /* AEAD id 4 */
 # define OSSL_HPKE_AEADSTR_EXP        "exporter"           /* AEAD id 0xff */
 
 /*

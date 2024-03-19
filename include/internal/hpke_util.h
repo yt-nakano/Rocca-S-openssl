@@ -1,5 +1,6 @@
 /*
  * Copyright 2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -21,7 +22,7 @@
  * max length of a base-nonce (the Nn field from OSSL_HPKE_AEAD_INFO), this
  * is used for a local stack array size
  */
-# define OSSL_HPKE_MAX_NONCELEN 12
+# define OSSL_HPKE_MAX_NONCELEN 16
 
 /*
  * @brief info about a KEM

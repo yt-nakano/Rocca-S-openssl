@@ -1,5 +1,6 @@
 /*
  * Copyright 2022-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -806,8 +807,9 @@ static uint16_t hpke_aead_list[] = {
     OSSL_HPKE_AEAD_ID_AES_GCM_128,
     OSSL_HPKE_AEAD_ID_AES_GCM_256,
 #if !defined(OPENSSL_NO_CHACHA) && !defined(OPENSSL_NO_POLY1305)
-    OSSL_HPKE_AEAD_ID_CHACHA_POLY1305
+    OSSL_HPKE_AEAD_ID_CHACHA_POLY1305,
 #endif
+    OSSL_HPKE_AEAD_ID_ROCCA_S
 };
 
 /*
@@ -839,9 +841,9 @@ static const char *kdf_str_list[] = {
     "1", "2", "3"
 };
 static const char *aead_str_list[] = {
-    "aes-128-gcm", "aes-256-gcm", "chacha20-poly1305", "exporter",
-    "0x1", "0x01", "0x2", "0x02", "0x3", "0x03",
-    "1", "2", "3",
+    "aes-128-gcm", "aes-256-gcm", "chacha20-poly1305", "rocca-s", "exporter",
+    "0x1", "0x01", "0x2", "0x02", "0x3", "0x03", "0x4", "0x04",
+    "1", "2", "3", "4",
     "0xff", "255"
 };
 /* table of bogus strings that better not work */

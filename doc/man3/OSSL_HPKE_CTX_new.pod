@@ -148,6 +148,8 @@ The AEAD identifier I<aead_id> is one of the following:
 
 =item 0x03 B<OSSL_HPKE_AEAD_ID_CHACHA_POLY1305>
 
+=item 0x04 B<OSSL_HPKE_AEAD_ID_ROCCA_S>
+
 =item 0xFFFF B<OSSL_HPKE_AEAD_ID_EXPORTONLY>
 
 The last identifier above indicates that AEAD operations are not needed.
@@ -455,7 +457,7 @@ This can be used by command line tools that accept string form names for HPKE
 codepoints. Valid (case-insensitive) names are:
 "p256", "p384", "p521", "x25519" and "x448" for KEM,
 "hkdf-SHA256", "hkdf-SHA384" and "hkdf-SHA512" for KDF, and
-"aes-gcm-128", "aes-gcm-256" and "chacha20-poly1305" for AEAD.
+"aes-gcm-128", "aes-gcm-256", "chacha20-poly1305" and "rocca-s" for AEAD.
 String variants of the numbers listed in L</OSSL_HPKE_SUITE Identifiers>
 can also be used.
 

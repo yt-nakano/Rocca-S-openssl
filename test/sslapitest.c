@@ -1,5 +1,6 @@
 /*
  * Copyright 2016-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -3841,8 +3842,9 @@ static const char *ciphersuites[] = {
     "TLS_AES_256_GCM_SHA384",
     "TLS_AES_128_CCM_SHA256",
 #if !defined(OPENSSL_NO_CHACHA) && !defined(OPENSSL_NO_POLY1305)
-    "TLS_CHACHA20_POLY1305_SHA256"
+    "TLS_CHACHA20_POLY1305_SHA256",
 #endif
+    "TLS_ROCCA_S_SHA512"
 };
 
 /*
@@ -3882,8 +3884,9 @@ static int early_data_skip_helper(int testtype, int cipher, int idx)
 
     if (!TEST_true(setupearly_data_test(&cctx, &sctx, &clientssl,
                                         &serverssl, &sess, idx,
-                                        cipher == 2 ? SHA384_DIGEST_LENGTH
-                                                    : SHA256_DIGEST_LENGTH)))
+                                           cipher == 5 ? SHA512_DIGEST_LENGTH
+                                        : (cipher == 2 ? SHA384_DIGEST_LENGTH
+                                        :                SHA256_DIGEST_LENGTH) )))
         goto end;
 
     if (testtype == 1 || testtype == 2) {
@@ -4340,6 +4343,7 @@ static int test_early_data_psk(int idx)
  * idx == 2: Test with TLS1_3_RFC_CHACHA20_POLY1305_SHA256,
  * idx == 3: Test with TLS1_3_RFC_AES_128_CCM_SHA256
  * idx == 4: Test with TLS1_3_RFC_AES_128_CCM_8_SHA256
+ * idx == 5: Test with TLS1_3_RFC_ROCCA_S_SHA512
  */
 static int test_early_data_psk_with_all_ciphers(int idx)
 {
@@ -4359,7 +4363,8 @@ static int test_early_data_psk_with_all_ciphers(int idx)
         NULL,
 # endif
         TLS1_3_RFC_AES_128_CCM_SHA256,
-        TLS1_3_RFC_AES_128_CCM_8_SHA256
+        TLS1_3_RFC_AES_128_CCM_8_SHA256,
+        TLS1_3_RFC_ROCCA_S_SHA512
     };
     const unsigned char *cipher_bytes[] = {
         TLS13_AES_128_GCM_SHA256_BYTES,
@@ -4370,7 +4375,8 @@ static int test_early_data_psk_with_all_ciphers(int idx)
         NULL,
 # endif
         TLS13_AES_128_CCM_SHA256_BYTES,
-        TLS13_AES_128_CCM_8_SHA256_BYTES
+        TLS13_AES_128_CCM_8_SHA256_BYTES,
+        TLS13_ROCCA_S_SHA512_BYTES
     };
 
     if (cipher_str[idx] == NULL)
@@ -5229,6 +5235,11 @@ static int test_tls13_ciphersuite(int idx)
         { TLS1_3_RFC_CHACHA20_POLY1305_SHA256, 0, 0 },
         { TLS1_3_RFC_AES_256_GCM_SHA384
           ":" TLS1_3_RFC_CHACHA20_POLY1305_SHA256, 0, 0 },
+# endif
+# if !defined(OPENSSL_NO_ROCCA)
+        { TLS1_3_RFC_ROCCA_S_SHA512, 0, 0 },
+        { TLS1_3_RFC_AES_256_GCM_SHA384
+          ":" TLS1_3_RFC_ROCCA_S_SHA512, 0, 0 },
 # endif
         /* CCM8 ciphers are considered low security due to their short tag */
         { TLS1_3_RFC_AES_128_CCM_8_SHA256
@@ -7750,8 +7761,8 @@ static struct {
         "AES256-SHA:AES128-SHA256",
         NULL,
         "TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:"
-        "TLS_AES_128_GCM_SHA256:AES256-SHA",
-        "TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:AES256-SHA"
+        "TLS_AES_128_GCM_SHA256:TLS_ROCCA_S_SHA512:AES256-SHA",
+        "TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:TLS_ROCCA_S_SHA512:AES256-SHA"
     },
 #endif
 #ifndef OSSL_NO_USABLE_TLS1_3

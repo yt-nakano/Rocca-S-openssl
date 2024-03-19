@@ -1,6 +1,7 @@
 /*
  * Copyright 2017-2020 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright 2017 BaishanCloud. All rights reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -361,6 +362,7 @@ static CIPHER_ID_NAME cipher_names[] = {
     {0x1303, "TLS_CHACHA20_POLY1305_SHA256"},
     {0x1304, "TLS_AES_128_CCM_SHA256"},
     {0x1305, "TLS_AES_128_CCM_8_SHA256"},
+    {0x1306, "TLS_ROCCA_S_SHA512"},
     {0xFEFE, "SSL_RSA_FIPS_WITH_DES_CBC_SHA"},
     {0xFEFF, "SSL_RSA_FIPS_WITH_3DES_EDE_CBC_SHA"},
 };

@@ -1,5 +1,6 @@
 /*
  * Copyright 2022-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -289,7 +290,8 @@ static int test_ciphersuites(void)
 #if !defined(OPENSSL_NO_CHACHA) && !defined(OPENSSL_NO_POLY1305)
         TLS1_3_CK_CHACHA20_POLY1305_SHA256,
 #endif
-        TLS1_3_CK_AES_128_GCM_SHA256
+        TLS1_3_CK_AES_128_GCM_SHA256,
+        TLS1_3_CK_ROCCA_S_SHA512
     };
     size_t i, j;
 
@@ -335,6 +337,7 @@ static int test_cipher_find(void)
         { TLS13_AES_128_GCM_SHA256_BYTES, 1 },
         { TLS13_AES_256_GCM_SHA384_BYTES, 1 },
         { TLS13_CHACHA20_POLY1305_SHA256_BYTES, 1 },
+        { TLS13_ROCCA_S_SHA512_BYTES, 1 },
         { TLS13_AES_128_CCM_SHA256_BYTES, 0 },
         { TLS13_AES_128_CCM_8_SHA256_BYTES, 0 }
     };
@@ -543,6 +546,7 @@ static int ensure_valid_ciphers(const STACK_OF(SSL_CIPHER) *ciphers)
             case TLS1_3_CK_AES_128_GCM_SHA256:
             case TLS1_3_CK_AES_256_GCM_SHA384:
             case TLS1_3_CK_CHACHA20_POLY1305_SHA256:
+            case TLS1_3_CK_ROCCA_S_SHA512:
                 break;
             default:
                 TEST_error("forbidden cipher: %s", SSL_CIPHER_get_name(cipher));
@@ -576,7 +580,8 @@ static int test_quic_forbidden_apis_ctx(void)
 #define QUIC_CIPHERSUITES \
     "TLS_AES_128_GCM_SHA256:"           \
     "TLS_AES_256_GCM_SHA384:"           \
-    "TLS_CHACHA20_POLY1305_SHA256"
+    "TLS_CHACHA20_POLY1305_SHA256:"     \
+    "TLS_ROCCA_S_SHA512"
 
 #define NON_QUIC_CIPHERSUITES           \
     "TLS_AES_128_CCM_SHA256:"           \

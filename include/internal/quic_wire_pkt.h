@@ -1,5 +1,6 @@
 /*
  * Copyright 2022-2023 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -165,6 +166,7 @@ typedef struct quic_hdr_protector_st {
 #  define QUIC_HDR_PROT_CIPHER_AES_128    1
 #  define QUIC_HDR_PROT_CIPHER_AES_256    2
 #  define QUIC_HDR_PROT_CIPHER_CHACHA     3
+#  define QUIC_HDR_PROT_CIPHER_ROCCA_S    4
 
 /*
  * Initialises a header protector.

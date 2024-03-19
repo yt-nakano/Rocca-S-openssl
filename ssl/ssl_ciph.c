@@ -2,6 +2,7 @@
  * Copyright 1995-2023 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2002, Oracle and/or its affiliates. All rights reserved
  * Copyright 2005 Nokia. All rights reserved.
+ * Copyright (c) 2024 KDDI CORPORATION. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -55,6 +56,7 @@ static const ssl_cipher_table ssl_cipher_table_cipher[SSL_ENC_NUM_IDX] = {
     {SSL_ARIA256GCM, NID_aria_256_gcm}, /* SSL_ENC_ARIA256GCM_IDX 21 */
     {SSL_MAGMA, NID_magma_ctr_acpkm}, /* SSL_ENC_MAGMA_IDX */
     {SSL_KUZNYECHIK, NID_kuznyechik_ctr_acpkm}, /* SSL_ENC_KUZNYECHIK_IDX */
+    {SSL_ROCCAS, NID_rocca_s}, /* SSL_ENC_ROCCAS_IDX */
 };
 
 #define SSL_COMP_NULL_IDX       0
@@ -244,6 +246,7 @@ static const SSL_CIPHER cipher_aliases[] = {
     {0, SSL_TXT_CAMELLIA256, NULL, 0, 0, 0, SSL_CAMELLIA256},
     {0, SSL_TXT_CAMELLIA, NULL, 0, 0, 0, SSL_CAMELLIA},
     {0, SSL_TXT_CHACHA20, NULL, 0, 0, 0, SSL_CHACHA20},
+    {0, SSL_TXT_ROCCA, NULL, 0, 0, 0, SSL_ROCCA},
     {0, SSL_TXT_GOST2012_GOST8912_GOST8912, NULL, 0, 0, 0, SSL_eGOST2814789CNT12},
 
     {0, SSL_TXT_ARIA, NULL, 0, 0, 0, SSL_ARIA},
@@ -1527,6 +1530,8 @@ STACK_OF(SSL_CIPHER) *ssl_create_cipher_list(SSL_CTX *ctx,
                           &head, &tail);
     ssl_cipher_apply_rule(0, 0, 0, SSL_CHACHA20, 0, 0, 0, CIPHER_ADD, -1,
                           &head, &tail);
+    ssl_cipher_apply_rule(0, 0, 0, SSL_ROCCA, 0, 0, 0, CIPHER_ADD, -1,
+                          &head, &tail);
 
     /*
      * ...and generally, our preferred cipher is AES.
@@ -1868,6 +1873,9 @@ char *SSL_CIPHER_description(const SSL_CIPHER *cipher, char *buf, int len)
     case SSL_CHACHA20POLY1305:
         enc = "CHACHA20/POLY1305(256)";
         break;
+    case SSL_ROCCAS:
+        enc = "ROCCAS(256)";
+        break;
     default:
         enc = "unknown";
         break;
@@ -2196,6 +2204,8 @@ int ssl_cipher_get_overhead(const SSL_CIPHER *c, size_t *mac_overhead,
         out = EVP_CCM_TLS_EXPLICIT_IV_LEN + 8;
     } else if (c->algorithm_enc & SSL_CHACHA20POLY1305) {
         out = 16;
+    } else if (c->algorithm_enc & SSL_ROCCAS) {
+        out = EVP_ROCCAS_TLS_TAG_LEN;
     } else if (c->algorithm_mac & SSL_AEAD) {
         /* We're supposed to have handled all the AEAD modes above */
         return 0;
@@ -2265,5 +2275,6 @@ const char *OSSL_default_ciphersuites(void)
 {
     return "TLS_AES_256_GCM_SHA384:"
            "TLS_CHACHA20_POLY1305_SHA256:"
-           "TLS_AES_128_GCM_SHA256";
+           "TLS_AES_128_GCM_SHA256:"
+           "TLS_ROCCA_S_SHA512";
 }

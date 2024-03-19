@@ -26,6 +26,7 @@ $CHACHA_GOAL=../../libdefault.a
 $CHACHAPOLY_GOAL=../../libdefault.a
 $SIV_GOAL=../../libdefault.a
 $SIV_GCM_GOAL=../../libdefault.a
+$ROCCA_GOAL=../../libdefault.a
 
 IF[{- !$disabled{asm} -}]
   $GHASHDEF_x86=GHASH_ASM
@@ -192,3 +193,12 @@ IF[{- !$disabled{chacha} -}]
       cipher_chacha20_poly1305.c cipher_chacha20_poly1305_hw.c
  ENDIF
 ENDIF
+
+IF[{- !$disabled{rocca} -}]
+  IF[{- !$disabled{asm} -}]
+      DEFINE[$ROCCA_GOAL]=ROCCA_ASM
+  ENDIF
+  SOURCE[$ROCCA_GOAL]=\
+      cipher_rocca_s.c cipher_rocca_s_hw.c
+ENDIF
+
