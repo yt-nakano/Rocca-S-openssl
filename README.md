@@ -24,7 +24,7 @@ Folloiwng depencencies should be installed to build this software:
 After installing the required software, you can build this software with the following commands:
 
 ```
-./Configure
+./Configure no-shared
 make
 ```
 
